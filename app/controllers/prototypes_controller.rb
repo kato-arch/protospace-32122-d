@@ -1,5 +1,6 @@
 class PrototypesController < ApplicationController
-  before_action :authenticate_user!, except: [:edit, :update, :destroy]
+
+before_action :authenticate_user!, except: [:edit, :update, :destroy]
 
 
 
@@ -46,11 +47,11 @@ class PrototypesController < ApplicationController
 
   # editアクション
   def edit
-
+    @prototype = Prototype.find(params[:id])
      # prototypesコントローラーにおいて、
      # 投稿者以外がeditアクションにアクセスしたら
      # トップページにリダイレクトするように記述した
-    unless user_signed_in?
+    unless @prototype.user_id == current_user.id
       redirect_to action: :index
     end
 
@@ -81,6 +82,7 @@ class PrototypesController < ApplicationController
     @prototype.destroy
     redirect_to root_path
   end
+
 
 
 
